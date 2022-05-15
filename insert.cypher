@@ -98,7 +98,7 @@ CREATE (departmentType2:DepartmentType {name: 'MAGAZYN', code: 'WAREHOUSE'})
 // ============================== Departments ==============================
 // Department 1
 CREATE (department1Warehouse:Department {name: 'Magazyn główny'})
-CREATE (department1Warehouse)-[:IS_OF_TYPE]->(departmentType2)
+CREATE (department1Warehouse)-[:IS_OF_DEPARTMENT_TYPE]->(departmentType2)
 CREATE (employee1)-[:WORKS_IN]->(department1Warehouse)
 CREATE (employee2)-[:WORKS_IN]->(department1Warehouse)
 CREATE (department1Warehouse)-[:LOCATED_AT]->(:Address {
@@ -110,7 +110,7 @@ CREATE (department1Warehouse)-[:LOCATED_AT]->(:Address {
 
 // Department 2
 CREATE (department2Warehouse:Department {name: 'Magazyn zapasowy'})
-CREATE (department2Warehouse)-[:IS_OF_TYPE]->(departmentType2)
+CREATE (department2Warehouse)-[:IS_OF_DEPARTMENT_TYPE]->(departmentType2)
 CREATE (department2Warehouse)-[:LOCATED_AT]->(:Address {
   street:       'Poturzyńska',
   house_number: '22',
@@ -120,7 +120,7 @@ CREATE (department2Warehouse)-[:LOCATED_AT]->(:Address {
 
 // Department 3
 CREATE (department3Shop:Department {name: 'Sklep w Lublinie'})
-CREATE (department3Shop)-[:IS_OF_TYPE]->(departmentType1)
+CREATE (department3Shop)-[:IS_OF_DEPARTMENT_TYPE]->(departmentType1)
 CREATE (employee3)-[:WORKS_IN]->(department3Shop)
 CREATE (employee4)-[:WORKS_IN]->(department3Shop)
 CREATE (department3Shop)-[:LOCATED_AT]->(:Address {
@@ -133,7 +133,7 @@ CREATE (department3Shop)-[:LOCATED_AT]->(:Address {
 
 // Department 4
 CREATE (department4Shop:Department {name: 'Sklep w Warszawie'})
-CREATE (department4Shop)-[:IS_OF_TYPE]->(departmentType1)
+CREATE (department4Shop)-[:IS_OF_DEPARTMENT_TYPE]->(departmentType1)
 CREATE (employee5)-[:WORKS_IN]->(department4Shop)
 CREATE (department4Shop)-[:LOCATED_AT]->(:Address {
   street:       'Złota',
@@ -144,7 +144,7 @@ CREATE (department4Shop)-[:LOCATED_AT]->(:Address {
 
 // Department 5
 CREATE (department5Shop:Department {name: 'Sklep w Nowym Sączu'})
-CREATE (department5Shop)-[:IS_OF_TYPE]->(departmentType1)
+CREATE (department5Shop)-[:IS_OF_DEPARTMENT_TYPE]->(departmentType1)
 CREATE (department5Shop)-[:LOCATED_AT]->(:Address {
   street:       'Zbożowa',
   house_number: '56',
@@ -408,7 +408,7 @@ CREATE (orderStatusCancelled:OrderStatus {code: 'CANCELLED', description: 'Anulo
 // ============================== Orders ==============================
 // Order 1 - Online store
 CREATE (order1:Order {order_date: datetime('2011-11-05T11:29:36.000+00:00')})
-CREATE (order1)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
+CREATE (order1)-[:IS_OF_ORDER_TYPE]->(orderTypeOnlineStore)
 CREATE (order1)-[:HAS_STATUS]->(orderStatusDelivered)
 CREATE (order1)-[:ORDERED_BY]->(customer1)
 CREATE (order1)-[:SENT_FROM]->(department1Warehouse)
@@ -422,7 +422,7 @@ CREATE (order1)-[:DELIVERED_TO]->(:Address {
 
 // Order 2 - Online store
 CREATE (order2:Order {order_date: datetime('2012-11-05T12:29:36.000+00:00')})
-CREATE (order2)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
+CREATE (order2)-[:IS_OF_ORDER_TYPE]->(orderTypeOnlineStore)
 CREATE (order2)-[:HAS_STATUS]->(orderStatusInTransport)
 CREATE (order2)-[:ORDERED_BY]->(customer1)
 CREATE (order2)-[:SENT_FROM]->(department1Warehouse)
@@ -436,7 +436,7 @@ CREATE (order2)-[:DELIVERED_TO]->(:Address {
 
 // Order 3 - Online store
 CREATE (order3:Order {order_date: datetime('2013-11-05T13:29:36.000+00:00')})
-CREATE (order3)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
+CREATE (order3)-[:IS_OF_ORDER_TYPE]->(orderTypeOnlineStore)
 CREATE (order3)-[:HAS_STATUS]->(orderStatusBeingPacked)
 CREATE (order3)-[:ORDERED_BY]->(customer2)
 CREATE (order3)-[:SENT_FROM]->(department1Warehouse)
@@ -450,7 +450,7 @@ CREATE (order3)-[:DELIVERED_TO]->(:Address {
 
 // Order 4 - Online store
 CREATE (order4:Order {order_date: datetime('2014-11-05T14:29:36.000+00:00')})
-CREATE (order4)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
+CREATE (order4)-[:IS_OF_ORDER_TYPE]->(orderTypeOnlineStore)
 CREATE (order4)-[:HAS_STATUS]->(orderStatusCancelled)
 CREATE (order4)-[:ORDERED_BY]->(customer3)
 CREATE (order3)-[:SENT_FROM]->(department2Warehouse)
@@ -464,19 +464,19 @@ CREATE (order3)-[:DELIVERED_TO]->(:Address {
 
 // Order 5 - Local store
 CREATE (order5:Order {order_date: datetime('2015-11-05T15:29:36.000+00:00')})
-CREATE (order5)-[:IS_OF_TYPE]->(orderTypeLocalStore)
+CREATE (order5)-[:IS_OF_ORDER_TYPE]->(orderTypeLocalStore)
 CREATE (order5)-[:HAS_STATUS]->(orderStatusDelivered)
 CREATE (order5)-[:PICKED_UP_AT]->(department3Shop)
 
 // Order 6 - Local store
 CREATE (order6:Order {order_date: datetime('2016-11-05T16:29:36.000+00:00')})
-CREATE (order6)-[:IS_OF_TYPE]->(orderTypeLocalStore)
+CREATE (order6)-[:IS_OF_ORDER_TYPE]->(orderTypeLocalStore)
 CREATE (order6)-[:HAS_STATUS]->(orderStatusDelivered)
 CREATE (order6)-[:PICKED_UP_AT]->(department4Shop)
 
 // Order 7 - Local store
 CREATE (order7:Order {order_date: datetime('2017-11-05T17:29:36.000+00:00')})
-CREATE (order7)-[:IS_OF_TYPE]->(orderTypeLocalStore)
+CREATE (order7)-[:IS_OF_ORDER_TYPE]->(orderTypeLocalStore)
 CREATE (order7)-[:HAS_STATUS]->(orderStatusDelivered)
 CREATE (order7)-[:PICKED_UP_AT]->(department4Shop)
 
