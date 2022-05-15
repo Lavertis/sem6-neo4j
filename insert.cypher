@@ -289,45 +289,45 @@ CREATE (bookAuthor4:BookAuthor {name: 'Henryk Sienkiewicz'})
 // ============================== Books ==============================
 // Book 1
 CREATE (book1:Book {
-  title:               'Ania z Zielonego Wzgórza',
-  publisher:           'Greg',
-  language:            'polski',
-  original_language:   'angielski',
-  pages:               352,
-  release_date:        datetime('2021-01-01T00:00:00.000+00:00'),
-  year_of_publication: datetime('2021-01-01T00:00:00.000+00:00'),
-  isbn:                '9788375174717',
-  price:               13.26
+  title:             'Ania z Zielonego Wzgórza',
+  publisher:         'Greg',
+  language:          'polski',
+  original_language: 'angielski',
+  pages:             352,
+  release_date:      datetime('2021-01-01T00:00:00.000+00:00'),
+  publication_date:  datetime('2021-01-01T00:00:00.000+00:00'),
+  isbn:              '9788375174717',
+  price:             13.26
 })<-[:IS_AUTHOR]-(bookAuthor1)
 CREATE (book1)-[:HAS_REVIEW]->(bookReview1)
 CREATE (book1)-[:HAS_REVIEW]->(bookReview2)
 
 // Book 2
 CREATE (book2:Book {
-  title:               'Hobbit, czyli tam i z powrotem',
-  publisher:           'Iskry',
-  language:            'polski',
-  original_language:   'angielski',
-  pages:               320,
-  release_date:        datetime('2012-01-01T00:00:00.000+00:00'),
-  year_of_publication: datetime('2014-01-01T00:00:00.000+00:00'),
-  isbn:                '9788324403875',
-  price:               36.46
+  title:             'Hobbit, czyli tam i z powrotem',
+  publisher:         'Iskry',
+  language:          'polski',
+  original_language: 'angielski',
+  pages:             320,
+  release_date:      datetime('2012-01-01T00:00:00.000+00:00'),
+  publication_date:  datetime('2014-01-01T00:00:00.000+00:00'),
+  isbn:              '9788324403875',
+  price:             36.46
 })<-[:IS_AUTHOR]-(bookAuthor2)
 CREATE (book2)-[:HAS_REVIEW]->(bookReview3)
 CREATE (book2)-[:HAS_REVIEW]->(bookReview4)
 
 // Book 3
 CREATE (book3:Book {
-  title:               'Mały Książę',
-  publisher:           'Greg',
-  language:            'polski',
-  original_language:   'francuski',
-  pages:               84,
-  release_date:        datetime('2013-01-01T00:00:00.000+00:00'),
-  year_of_publication: datetime('2021-01-01T00:00:00.000+00:00'),
-  isbn:                '9788375178548',
-  price:               12.00
+  title:             'Mały Książę',
+  publisher:         'Greg',
+  language:          'polski',
+  original_language: 'francuski',
+  pages:             84,
+  release_date:      datetime('2013-01-01T00:00:00.000+00:00'),
+  publication_date:  datetime('2021-01-01T00:00:00.000+00:00'),
+  isbn:              '9788375178548',
+  price:             12.00
 })<-[:IS_AUTHOR]-(bookAuthor3)
 CREATE (book3)-[:HAS_REVIEW]->(bookReview5)
 CREATE (book3)-[:HAS_REVIEW]->(bookReview6)
@@ -335,30 +335,30 @@ CREATE (book3)-[:HAS_REVIEW]->(bookReview7)
 
 // Book 4
 CREATE (book4:Book {
-  title:               'Le Petit Prince',
-  publisher:           'Denoel',
-  language:            'francuski',
-  original_language:   'francuski',
-  pages:               103,
-  release_date:        datetime('2008-01-01T00:00:00.000+00:00'),
-  year_of_publication: datetime('2008-01-01T00:00:00.000+00:00'),
-  isbn:                '9782070408504',
-  price:               44.8
+  title:             'Le Petit Prince',
+  publisher:         'Denoel',
+  language:          'francuski',
+  original_language: 'francuski',
+  pages:             103,
+  release_date:      datetime('2008-01-01T00:00:00.000+00:00'),
+  publication_date:  datetime('2008-01-01T00:00:00.000+00:00'),
+  isbn:              '9782070408504',
+  price:             44.8
 })<-[:IS_AUTHOR]-(bookAuthor3)
 CREATE (book4)-[:HAS_REVIEW]->(bookReview8)
 CREATE (book4)-[:HAS_REVIEW]->(bookReview9)
 
 // Book 5
 CREATE (book5:Book {
-  title:               'Krzyżacy',
-  publisher:           'Greg',
-  language:            'polski',
-  original_language:   'polski',
-  pages:               600,
-  release_date:        datetime('2001-01-01T00:00:00.000+00:00'),
-  year_of_publication: datetime('2020-01-01T00:00:00.000+00:00'),
-  isbn:                '68839758',
-  price:               70.45
+  title:             'Krzyżacy',
+  publisher:         'Greg',
+  language:          'polski',
+  original_language: 'polski',
+  pages:             600,
+  release_date:      datetime('2001-01-01T00:00:00.000+00:00'),
+  publication_date:  datetime('2020-01-01T00:00:00.000+00:00'),
+  isbn:              '68839758',
+  price:             70.45
 })<-[:IS_AUTHOR]-(bookAuthor4)
 CREATE (book5)-[:HAS_REVIEW]->(bookReview10)
 CREATE (book5)-[:HAS_REVIEW]->(bookReview11)
