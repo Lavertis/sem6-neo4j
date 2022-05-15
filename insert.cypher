@@ -9,7 +9,11 @@ CREATE CONSTRAINT ON (country:Country) ASSERT country.code IS UNIQUE;
 
 CREATE CONSTRAINT ON (departmentType:DepartmentType) ASSERT departmentType.code IS UNIQUE;
 
-CREATE CONSTRAINT ON (bookAuthor:BookAuthor) ASSERT bookAuthor.name IS UNIQUE;
+CREATE CONSTRAINT ON (bookAuthor:BookAuthor) ASSERT bookAuthor.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (bookPublisher:BookPublisher) ASSERT bookPublisher.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (bookLanguage:BookLanguage) ASSERT bookLanguage.code IS UNIQUE;
 
 CREATE CONSTRAINT ON (book:Book) ASSERT book.isbn IS UNIQUE;
 
@@ -205,167 +209,179 @@ CREATE (department5Shop)-[:LOCATED_AT]->(:Address {
 })-[:IS_IN]->(countryPoland)
 
 
+// ============================== BookAuthors ==============================
+CREATE (bookAuthor1:BookAuthor {name: 'Lucy Maud Montgomery', code: 'LMM'})
+CREATE (bookAuthor2:BookAuthor {name: 'J. R. R. Tolkien', code: 'JRR'})
+CREATE (bookAuthor3:BookAuthor {name: 'Antoine de Saint-Exupéry', code: 'ADSE'})
+CREATE (bookAuthor4:BookAuthor {name: 'Henryk Sienkiewicz', code: 'HS'})
+
+
+// ============================== BookPublishers ==============================
+CREATE (bookPublisherGreg:BookPublisher {name: 'Greg', code: 'GR'})
+CREATE (bookPublisherIskry:BookPublisher {name: 'Iskry', code: 'IS'})
+CREATE (bookPublisherDenoel:BookPublisher {name: 'Denoel', code: 'DN'})
+
+
+// ============================== BookLanguages ==============================
+CREATE (bookLanguagePolish:BookLanguage {name: 'Polski', code: 'PL'})
+CREATE (bookLanguageEnglish:BookLanguage {name: 'Angielski', code: 'EN'})
+CREATE (bookLanguageFrench:BookLanguage {name: 'Francuski', code: 'FR'})
+
+
+// ============================== Books ==============================
+// Book 1
+CREATE (book1:Book {
+  title:            'Ania z Zielonego Wzgórza',
+  page_count:       352,
+  release_date:     datetime('2021-01-01T00:00:00.000+00:00'),
+  publication_date: datetime('2021-01-01T00:00:00.000+00:00'),
+  isbn:             '9788375174717',
+  price:            13.26
+})<-[:IS_AUTHOR]-(bookAuthor1)
+CREATE (book1)-[:PUBLISHED_BY]->(bookPublisherGreg)
+CREATE (book1)-[:IS_IN_LANGUAGE]->(bookLanguagePolish)
+CREATE (book1)-[:WAS_ORIGINALLY_IN_LANGUAGE]->(bookLanguageEnglish)
+
+// Book 2
+CREATE (book2:Book {
+  title:            'Hobbit, czyli tam i z powrotem',
+  page_count:       320,
+  release_date:     datetime('2012-01-01T00:00:00.000+00:00'),
+  publication_date: datetime('2014-01-01T00:00:00.000+00:00'),
+  isbn:             '9788324403875',
+  price:            36.46
+})<-[:IS_AUTHOR]-(bookAuthor2)
+CREATE (book2)-[:PUBLISHED_BY]->(bookPublisherGreg)
+CREATE (book2)-[:IS_IN_LANGUAGE]->(bookLanguagePolish)
+CREATE (book2)-[:WAS_ORIGINALLY_IN_LANGUAGE]->(bookLanguageEnglish)
+
+// Book 3
+CREATE (book3:Book {
+  title:            'Mały Książę',
+  page_count:       84,
+  release_date:     datetime('2013-01-01T00:00:00.000+00:00'),
+  publication_date: datetime('2021-01-01T00:00:00.000+00:00'),
+  isbn:             '9788375178548',
+  price:            12.00
+})<-[:IS_AUTHOR]-(bookAuthor3)
+CREATE (book3)-[:PUBLISHED_BY]->(bookPublisherGreg)
+CREATE (book3)-[:IS_IN_LANGUAGE]->(bookLanguagePolish)
+CREATE (book3)-[:WAS_ORIGINALLY_IN_LANGUAGE]->(bookLanguageFrench)
+
+// Book 4
+CREATE (book4:Book {
+  title:            'Le Petit Prince',
+  page_count:       103,
+  release_date:     datetime('2008-01-01T00:00:00.000+00:00'),
+  publication_date: datetime('2008-01-01T00:00:00.000+00:00'),
+  isbn:             '9782070408504',
+  price:            44.8
+})<-[:IS_AUTHOR]-(bookAuthor3)
+CREATE (book4)-[:PUBLISHED_BY]->(bookPublisherDenoel)
+CREATE (book4)-[:IS_IN_LANGUAGE]->(bookLanguageFrench)
+CREATE (book4)-[:WAS_ORIGINALLY_IN_LANGUAGE]->(bookLanguageEnglish)
+
+// Book 5
+CREATE (book5:Book {
+  title:            'Krzyżacy',
+  page_count:       600,
+  release_date:     datetime('2001-01-01T00:00:00.000+00:00'),
+  publication_date: datetime('2020-01-01T00:00:00.000+00:00'),
+  isbn:             '68839758',
+  price:            70.45
+})<-[:IS_AUTHOR]-(bookAuthor4)
+CREATE (book5)-[:PUBLISHED_BY]->(bookPublisherGreg)
+CREATE (book5)-[:IS_IN_LANGUAGE]->(bookLanguagePolish)
+CREATE (book5)-[:WAS_ORIGINALLY_IN_LANGUAGE]->(bookLanguagePolish)
+
+
 // ============================== BookReviews ==============================
 CREATE (bookReview1:BookReview {
   title:   'BARDZO POLECAM!!!',
   content: 'PIĘKNA książka która zachwyciła tysiące dziewcząt na całym świecie, w tym i mnie. Ciekawa, opisująca losy małej dziewczynki z sierocińca , która przez przypadek trafia na Zielone Wzgórze.',
   stars:   5
 })-[:WRITTEN_BY]->(customer1)
+CREATE (book1)-[:HAS_REVIEW]->(bookReview1)
 
 CREATE (bookReview2:BookReview {
   title:   'Bardzo ciekawa',
   content: 'Bardzo ciekawa książka (lektura). Opowiada o dziewczynce która trafiła przez pomyłke do starszego rodzeństwa. Warto przeczytać.',
   stars:   4
 })-[:WRITTEN_BY]->(customer2)
+CREATE (book1)-[:HAS_REVIEW]->(bookReview2)
 
 CREATE (bookReview3:BookReview {
   title:   'Kiepskie tłumaczenie',
   content: 'Zdecydowanie polecam bardziej tłumaczenie p. Skibniewskiej niż to użyte w tym wydaniu, czyli p. Braiter. W wydaniu Zysk i S-ka na mapie świata pojawiło się kilka błędów rzeczowych i związanych z odmianą oraz kilka literówek w samym tekście. Do tego niektóre użyte sformułowania aż kłują w oczy - "najdrożssssszy" zamiast sskarbie, "ziomkowie" zamiast rodu, czy wojowników, "drzazgi" zamiast pochodni" oraz moje ulubione "gruba beka" zamiast "stare pajęczysko". Momentami naprawdę źle się to czyta. Całość w dużym stopniu ratuje przepiękna wręcz oprawa wizualna. Mimo to, wygląda to trochę jakby nad wydaniem czuwał ktoś, kto nie ma pojęcia o świecie Tolkiena. Skontaktowałem się już w sprawie poprawek błędów z wydawnictwem, jednak od kilku dni przestali mi odpowiadać. Szkoda.',
   stars:   1
 })-[:WRITTEN_BY]->(customer3)
+CREATE (book2)-[:HAS_REVIEW]->(bookReview3)
 
 CREATE (bookReview4:BookReview {
   title:   'Książka J.R.R. Tolkiena',
   content: 'Książka J.R.R. Tolkiena pt. "Hobbit, czyli tam i z powrotem" jest lekturą fantastyczną, przygodową. Przyjemnie i szybko się ją czyta. Głównym bohaterem jest mały Hobbit - Bilbo Baggins. Wiedzie spokojne życie w swojej chatce pod Pagurkiem. Pewnego dnia jego świat odwraca się do góry nogami. Niespodziewanie w jego domu pojawia się gromadka Krasnoludów oraz czarodziej Gandalf. Chcą, aby udał się z nimi w podróż w celu zabicia smoka oraz odzyskania Góry i skarbów Durina. Bilbo zgadza się na wyprawę, nie wiedząc jeszcze jak naprawdę niebezpieczna okaże się ta przygoda.\n\n"Ciemne sprawy najlepiej załatwiać po ciemku."',
   stars:   3
 })-[:WRITTEN_BY]->(customer4)
+CREATE (book2)-[:HAS_REVIEW]->(bookReview4)
 
 CREATE (bookReview5:BookReview {
   title:   'Cudowne',
   content: 'Kto z nas nie zna tej historii? Piękna opowieść z cudnymi ilustracjami. To wydanie jest wprost niesamowite, a moja córka nie może sie od niego oderwać.',
   stars:   5
 })-[:WRITTEN_BY]->(customer3)
+CREATE (book3)-[:HAS_REVIEW]->(bookReview5)
 
 CREATE (bookReview6:BookReview {
   title:   'Polecam',
   content: 'Polecam, dobre opracowanie, bardzo pomocne w szkole przy omawianiu lektury.',
   stars:   4
 })-[:WRITTEN_BY]->(customer4)
+CREATE (book3)-[:HAS_REVIEW]->(bookReview6)
 
 CREATE (bookReview7:BookReview {
   title:   'Moja ulubiona książka',
   content: 'To książka, która na zawsze pozostaje w pamięci, o ile da się jej „oswoić”. To alegoria samotności, miłości, która przekazuje ponadczasowe treści. Czy jest ktoś, kto nie zna sentencji, że dobrze widzi się tylko sercem…? To klasyka, którą można codziennie odkrywać od nowa. Choć jej forma nie przemówi do wszystkich, to jednak dla tych, którzy przeczytają ją sercem, pozwoli spojrzeć na współczesny świat w innej perspektywy. Jest ona pełna emocji, wskazuje na miłość i przyjaźń, na wartości, które tak łatwo zatracić, a bez których nie ma prawdziwego życia. Życia, które jest pełne szczęścia i może być przezywane w pełni.',
   stars:   5
 })-[:WRITTEN_BY]->(customer5)
+CREATE (book3)-[:HAS_REVIEW]->(bookReview7)
 
 CREATE (bookReview8:BookReview {
   title:   'À partir de là',
   content: "À partir de là, vous n'aurez plus qu'une seule interrogation: savoir d'où vient cet étrange petit bonhomme et connaître son histoire.",
   stars:   4
 })-[:WRITTEN_BY]->(customer3)
+CREATE (book4)-[:HAS_REVIEW]->(bookReview8)
 
 CREATE (bookReview9:BookReview {
   title:   'Imaginez-vous',
   content: "Imaginez-vous perdu dans le désert, loin de tout lieu habité, et face à un petit garçon tout blond, surgi de nulle part. Si de surcroît ce petit garçon vous demande avec insistance de dessiner un mouton, vous voilà plus qu'étonné !",
   stars:   4
 })-[:WRITTEN_BY]->(customer4)
+CREATE (book4)-[:HAS_REVIEW]->(bookReview9)
 
 CREATE (bookReview10:BookReview {
   title:   'Wybrakowane',
   content: 'Kupiłem synowi i brakuje części rozdziału 3 i całego czwartego, musiałem ratować się dostępną w sieci darmową wersją elektroniczną.',
   stars:   1
 })-[:WRITTEN_BY]->(customer1)
+CREATE (book5)-[:HAS_REVIEW]->(bookReview10)
 
 CREATE (bookReview11:BookReview {
   title:   'Ciężko się czyta',
   content: 'Bardzo mała czcionka...',
   stars:   2
 })-[:WRITTEN_BY]->(customer2)
+CREATE (book5)-[:HAS_REVIEW]->(bookReview11)
 
 CREATE (bookReview12:BookReview {
   title:   'No nie',
   content: 'Długa, nużąca, ciężko się czyta.',
   stars:   1
 })-[:WRITTEN_BY]->(customer3)
-
-
-// ============================== BookAuthors ==============================
-CREATE (bookAuthor1:BookAuthor {name: 'Lucy Maud Montgomery'})
-CREATE (bookAuthor2:BookAuthor {name: 'J. R. R. Tolkien'})
-CREATE (bookAuthor3:BookAuthor {name: 'Antoine de Saint-Exupéry'})
-CREATE (bookAuthor4:BookAuthor {name: 'Henryk Sienkiewicz'})
-
-
-// ============================== Books ==============================
-// Book 1
-CREATE (book1:Book {
-  title:             'Ania z Zielonego Wzgórza',
-  publisher:         'Greg',
-  language:          'polski',
-  original_language: 'angielski',
-  pages:             352,
-  release_date:      datetime('2021-01-01T00:00:00.000+00:00'),
-  publication_date:  datetime('2021-01-01T00:00:00.000+00:00'),
-  isbn:              '9788375174717',
-  price:             13.26
-})<-[:IS_AUTHOR]-(bookAuthor1)
-CREATE (book1)-[:HAS_REVIEW]->(bookReview1)
-CREATE (book1)-[:HAS_REVIEW]->(bookReview2)
-
-// Book 2
-CREATE (book2:Book {
-  title:             'Hobbit, czyli tam i z powrotem',
-  publisher:         'Iskry',
-  language:          'polski',
-  original_language: 'angielski',
-  pages:             320,
-  release_date:      datetime('2012-01-01T00:00:00.000+00:00'),
-  publication_date:  datetime('2014-01-01T00:00:00.000+00:00'),
-  isbn:              '9788324403875',
-  price:             36.46
-})<-[:IS_AUTHOR]-(bookAuthor2)
-CREATE (book2)-[:HAS_REVIEW]->(bookReview3)
-CREATE (book2)-[:HAS_REVIEW]->(bookReview4)
-
-// Book 3
-CREATE (book3:Book {
-  title:             'Mały Książę',
-  publisher:         'Greg',
-  language:          'polski',
-  original_language: 'francuski',
-  pages:             84,
-  release_date:      datetime('2013-01-01T00:00:00.000+00:00'),
-  publication_date:  datetime('2021-01-01T00:00:00.000+00:00'),
-  isbn:              '9788375178548',
-  price:             12.00
-})<-[:IS_AUTHOR]-(bookAuthor3)
-CREATE (book3)-[:HAS_REVIEW]->(bookReview5)
-CREATE (book3)-[:HAS_REVIEW]->(bookReview6)
-CREATE (book3)-[:HAS_REVIEW]->(bookReview7)
-
-// Book 4
-CREATE (book4:Book {
-  title:             'Le Petit Prince',
-  publisher:         'Denoel',
-  language:          'francuski',
-  original_language: 'francuski',
-  pages:             103,
-  release_date:      datetime('2008-01-01T00:00:00.000+00:00'),
-  publication_date:  datetime('2008-01-01T00:00:00.000+00:00'),
-  isbn:              '9782070408504',
-  price:             44.8
-})<-[:IS_AUTHOR]-(bookAuthor3)
-CREATE (book4)-[:HAS_REVIEW]->(bookReview8)
-CREATE (book4)-[:HAS_REVIEW]->(bookReview9)
-
-// Book 5
-CREATE (book5:Book {
-  title:             'Krzyżacy',
-  publisher:         'Greg',
-  language:          'polski',
-  original_language: 'polski',
-  pages:             600,
-  release_date:      datetime('2001-01-01T00:00:00.000+00:00'),
-  publication_date:  datetime('2020-01-01T00:00:00.000+00:00'),
-  isbn:              '68839758',
-  price:             70.45
-})<-[:IS_AUTHOR]-(bookAuthor4)
-CREATE (book5)-[:HAS_REVIEW]->(bookReview10)
-CREATE (book5)-[:HAS_REVIEW]->(bookReview11)
 CREATE (book5)-[:HAS_REVIEW]->(bookReview12)
 
 
-// ============================== Book availability in departments ==============================
+// ============================== Book availability in Departments ==============================
 // Department 1 - Warehouse
 CREATE (book1)-[:IS_AVAILABLE_IN {quantity: 4589}]->(department1Warehouse)
 CREATE (book2)-[:IS_AVAILABLE_IN {quantity: 2156}]->(department1Warehouse)
