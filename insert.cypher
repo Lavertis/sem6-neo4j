@@ -24,6 +24,58 @@ CREATE (roleCustomer:Role {name: 'Klient', code: 'CUSTOMER'})
 CREATE (roleAdmin:Role {name: 'Administrator', code: 'ADMIN'})
 
 
+// ============================== Customers ==============================
+// Customer 1
+CREATE (user6Customer:User {
+  email:        'customer1@gmail.com',
+  password:     'pass1',
+  phone_number: '666666666',
+  first_name:   'Karol',
+  last_name:    'Martyniuk'
+})-[:HAS_ROLE]->(roleCustomer)
+CREATE (customer1:Customer)-[:IS_USER]->(user6Customer)
+
+// Customer 2
+CREATE (user7Customer:User {
+  email:        'customer2@gmail.com',
+  password:     'pass2',
+  phone_number: '777777777',
+  first_name:   'Agata',
+  last_name:    'Fiołek'
+})-[:HAS_ROLE]->(roleCustomer)
+CREATE (customer2:Customer)-[:IS_USER]->(user7Customer)
+
+// Customer 3
+CREATE (user8Customer:User {
+  email:        'customer3@gmail.com',
+  password:     'pass3',
+  phone_number: '888888888',
+  first_name:   'Stefan',
+  last_name:    'Karol'
+})-[:HAS_ROLE]->(roleCustomer)
+CREATE (customer3:Customer)-[:IS_USER]->(user8Customer)
+
+// Customer 4
+CREATE (user9Customer:User {
+  email:        'customer4@gmail.com',
+  password:     'pass4',
+  phone_number: '999999999',
+  first_name:   'Marcin',
+  last_name:    'Januszewski'
+})-[:HAS_ROLE]->(roleCustomer)
+CREATE (customer4:Customer)-[:IS_USER]->(user9Customer)
+
+// Customer 5
+CREATE (user10Customer:User {
+  email:        'customer5@gmail.com',
+  password:     'pass5',
+  phone_number: '101010101',
+  first_name:   'Alicja',
+  last_name:    'Kowalska'
+})-[:HAS_ROLE]->(roleCustomer)
+CREATE (customer5:Customer)-[:IS_USER]->(user10Customer)
+
+
 // ============================== EmployeePositions ==============================
 CREATE (employeePositionShopAssistant:EmployeePosition {name: 'Sprzedawca', code: 'SHOP_ASSISTANT'})
 CREATE (employeePositionWarehouseman:EmployeePosition {name: 'Magazynier', code: 'WAREHOUSEMAN'})
@@ -32,54 +84,54 @@ CREATE (employeePositionManager:EmployeePosition {name: 'Kierownik', code: 'MANA
 
 // ============================== Employees ==============================
 // Employee 1
-CREATE (employee1:User {
+CREATE (user1Employee:User {
   email:        'employee1@gmail.com',
   password:     'pass1',
   phone_number: '111111111',
   first_name:   'Agata',
   last_name:    'Małysz'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee1)-[:WORKS_AS]->(employeePositionShopAssistant)
+CREATE (user1Employee)<-[:IS_USER]-(employee1:Employee)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 2
-CREATE (employee2:User {
+CREATE (user2Employee:User {
   email:        'employee2@gmail.com',
   password:     'pass2',
   phone_number: '222222222',
   first_name:   'Tomasz',
   last_name:    'Kowalski'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee2)-[:WORKS_AS]->(employeePositionShopAssistant)
+CREATE (user2Employee)<-[:IS_USER]-(employee2:Employee)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 3
-CREATE (employee3:User {
+CREATE (user3Employee:User {
   email:        'employee3@gmail.com',
   password:     'pass3',
   phone_number: '333333333',
   first_name:   'Tomasz',
   last_name:    'Wójcik'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee3)-[:WORKS_AS]->(employeePositionShopAssistant)
+CREATE (user3Employee)<-[:IS_USER]-(employee3:Employee)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 4
-CREATE (employee4:User {
+CREATE (user4Employee:User {
   email:        'employee4@gmail.com',
   password:     'pass4',
   phone_number: '444444444',
   first_name:   'Roman',
   last_name:    'Małysz'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee4)-[:WORKS_AS]->(employeePositionWarehouseman)
+CREATE (user4Employee)<-[:IS_USER]-(employee4:Employee)-[:WORKS_AS]->(employeePositionWarehouseman)
 
 // Employee 5
-CREATE (employee5:User {
+CREATE (user5Employee:User {
   email:        'employee5@gmail.com',
   password:     'pass5',
   phone_number: '555555555',
   first_name:   'Stefania',
   last_name:    'Przetak'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee5)-[:WORKS_AS]->(employeePositionWarehouseman)
+CREATE (user5Employee)<-[:IS_USER]-(employee5:Employee)-[:WORKS_AS]->(employeePositionWarehouseman)
 
 
 // ============================== Countries ==============================
@@ -151,48 +203,6 @@ CREATE (department5Shop)-[:LOCATED_AT]->(:Address {
   postcode:     '01-958',
   city:         'Nowy Sącz'
 })-[:IS_IN]->(countryPoland)
-
-
-// ============================== Customers ==============================
-CREATE (customer1:User {
-  email:        'customer1@gmail.com',
-  password:     'pass1',
-  phone_number: '666666666',
-  first_name:   'Karol',
-  last_name:    'Martyniuk'
-})-[:HAS_ROLE]->(roleCustomer)
-
-CREATE (customer2:User {
-  email:        'customer2@gmail.com',
-  password:     'pass2',
-  phone_number: '777777777',
-  first_name:   'Agata',
-  last_name:    'Fiołek'
-})-[:HAS_ROLE]->(roleCustomer)
-
-CREATE (customer3:User {
-  email:        'customer3@gmail.com',
-  password:     'pass3',
-  phone_number: '888888888',
-  first_name:   'Stefan',
-  last_name:    'Karol'
-})-[:HAS_ROLE]->(roleCustomer)
-
-CREATE (customer4:User {
-  email:        'customer4@gmail.com',
-  password:     'pass4',
-  phone_number: '999999999',
-  first_name:   'Marcin',
-  last_name:    'Januszewski'
-})-[:HAS_ROLE]->(roleCustomer)
-
-CREATE (customer5:User {
-  email:        'customer5@gmail.com',
-  password:     'pass5',
-  phone_number: '101010101',
-  first_name:   'Alicja',
-  last_name:    'Kowalska'
-})-[:HAS_ROLE]->(roleCustomer)
 
 
 // ============================== BookReviews ==============================
