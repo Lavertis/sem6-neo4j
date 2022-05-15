@@ -1,13 +1,33 @@
+// ============================== Constraints ==============================
+CREATE CONSTRAINT ON (role:Role) ASSERT role.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE;
+
+CREATE CONSTRAINT ON (employeePosition:EmployeePosition) ASSERT employeePosition.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (country:Country) ASSERT country.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (departmentType:DepartmentType) ASSERT departmentType.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (bookAuthor:BookAuthor) ASSERT bookAuthor.name IS UNIQUE;
+
+CREATE CONSTRAINT ON (book:Book) ASSERT book.isbn IS UNIQUE;
+
+CREATE CONSTRAINT ON (orderType:OrderType) ASSERT orderType.code IS UNIQUE;
+
+CREATE CONSTRAINT ON (orderStatus:OrderStatus) ASSERT orderStatus.code IS UNIQUE;
+
+
 // ============================== Roles ==============================
-CREATE (roleEmployee:Role {name: 'employee', description: 'Pracownik'})
-CREATE (roleCustomer:Role {name: 'customer', description: 'Klient'})
-CREATE (roleAdmin:Role {name: 'admin', description: 'Administrator'})
+CREATE (roleEmployee:Role {name: 'Pracownik', code: 'EMPLOYEE'})
+CREATE (roleCustomer:Role {name: 'Klient', code: 'CUSTOMER'})
+CREATE (roleAdmin:Role {name: 'Administrator', code: 'ADMIN'})
 
 
 // ============================== EmployeePositions ==============================
-CREATE (employeePositionShopAssistant:EmployeePosition {code: 'SHOP_ASSISTANT', description: 'Sprzedawca'})
-CREATE (employeePositionWarehouseman:EmployeePosition {code: 'WAREHOUSEMAN', description: 'Magazynier'})
-CREATE (employeePositionManager:EmployeePosition {code: 'MANAGER', name: 'kierownik'})
+CREATE (employeePositionShopAssistant:EmployeePosition {name: 'Sprzedawca', code: 'SHOP_ASSISTANT'})
+CREATE (employeePositionWarehouseman:EmployeePosition {name: 'Magazynier', code: 'WAREHOUSEMAN'})
+CREATE (employeePositionManager:EmployeePosition {name: 'Kierownik', code: 'MANAGER'})
 
 
 // ============================== Employees ==============================
@@ -71,8 +91,8 @@ CREATE (countryItaly:Country {name: 'Włochy', code: 'IT'})
 
 
 // ============================== DepartmentTypes ==============================
-CREATE (departmentType1:DepartmentType {name: 'SKLEP'})
-CREATE (departmentType2:DepartmentType {name: 'MAGAZYN'})
+CREATE (departmentType1:DepartmentType {name: 'SKLEP', code: 'SHOP'})
+CREATE (departmentType2:DepartmentType {name: 'MAGAZYN', code: 'WAREHOUSE'})
 
 
 // ============================== Departments ==============================
@@ -274,7 +294,7 @@ CREATE (book1)-[:HAS_REVIEW]->(bookReview2)
 
 // Book 2
 CREATE (book2:Book {
-  title:               'Hobbit czyli tam i z powrotem',
+  title:               'Hobbit, czyli tam i z powrotem',
   publisher:           'Iskry',
   language:            'polski',
   original_language:   'angielski',
@@ -372,17 +392,17 @@ CREATE (book4)-[:IS_AVAILABLE_IN {quantity: 15}]->(department5Shop)
 CREATE (book5)-[:IS_AVAILABLE_IN {quantity: 1}]->(department5Shop)
 
 
+// ============================== OrderTypes ==============================
+CREATE (orderTypeOnlineStore:OrderType {code: 'ONLINE_STORE', description: 'Zamówienie internetowe'})
+CREATE (orderTypeLocalStore:OrderType {code: 'LOCAL_STORE', description: 'Zamówienie stacjonarne'})
+
+
 // ============================== OrderStatuses ==============================
 CREATE (orderStatusBeingPacked:OrderStatus {code: 'BEING_PACKED', description: 'W trakcie pakowania'})
 CREATE (orderStatusInTransport:OrderStatus {code: 'IN_TRANSPORT', description: 'W transporcie'})
 CREATE (orderStatusSent:OrderStatus {code: 'SENT', description: 'Wysłane'})
 CREATE (orderStatusDelivered:OrderStatus {code: 'DELIVERED', description: 'Dostarczone'})
 CREATE (orderStatusCancelled:OrderStatus {code: 'CANCELLED', description: 'Anulowane'})
-
-
-// ============================== OrderTypes ==============================
-CREATE (orderTypeOnlineStore:OrderType {code: 'ONLINE_STORE', description: 'Zamówienie internetowe'})
-CREATE (orderTypeLocalStore:OrderType {code: 'LOCAL_STORE', description: 'Zamówienie stacjonarne'})
 
 
 // ============================== Orders ==============================
