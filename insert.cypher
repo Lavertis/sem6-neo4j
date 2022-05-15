@@ -3,10 +3,10 @@ CREATE (roleEmployee:Role {name: 'employee', description: 'Employee'})
 CREATE (roleCustomer:Role {name: 'customer', description: 'Customer'})
 
 
-// ============================== EmployeeTypes ==============================
-CREATE (employeeTypeShopAssistant:EmployeeType {code: 'SHOP_ASSISTANT', description: 'Sprzedawca'})
-CREATE (employeeTypeWarehouseman:EmployeeType {code: 'WAREHOUSEMAN', description: 'Magazynier'})
-CREATE (employeeTypeManager:EmployeeType {code: 'MANAGER', name: 'kierownik'})
+// ============================== EmployeePositions ==============================
+CREATE (employeePositionShopAssistant:EmployeePosition {code: 'SHOP_ASSISTANT', description: 'Sprzedawca'})
+CREATE (employeePositionWarehouseman:EmployeePosition {code: 'WAREHOUSEMAN', description: 'Magazynier'})
+CREATE (employeePositionManager:EmployeePosition {code: 'MANAGER', name: 'kierownik'})
 
 
 // ============================== Employees ==============================
@@ -18,7 +18,7 @@ CREATE (employee1:User {
   first_name:   'Agata',
   last_name:    'Małysz'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee1)-[:HAS_TYPE]->(employeeTypeShopAssistant)
+CREATE (employee1)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 2
 CREATE (employee2:User {
@@ -28,7 +28,7 @@ CREATE (employee2:User {
   first_name:   'Tomasz',
   last_name:    'Kowalski'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee2)-[:HAS_TYPE]->(employeeTypeShopAssistant)
+CREATE (employee2)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 3
 CREATE (employee3:User {
@@ -38,7 +38,7 @@ CREATE (employee3:User {
   first_name:   'Tomasz',
   last_name:    'Wójcik'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee3)-[:HAS_TYPE]->(employeeTypeShopAssistant)
+CREATE (employee3)-[:WORKS_AS]->(employeePositionShopAssistant)
 
 // Employee 4
 CREATE (employee4:User {
@@ -48,7 +48,7 @@ CREATE (employee4:User {
   first_name:   'Roman',
   last_name:    'Małysz'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee4)-[:HAS_TYPE]->(employeeTypeWarehouseman)
+CREATE (employee4)-[:WORKS_AS]->(employeePositionWarehouseman)
 
 // Employee 5
 CREATE (employee5:User {
@@ -58,7 +58,7 @@ CREATE (employee5:User {
   first_name:   'Stefania',
   last_name:    'Przetak'
 })-[:HAS_ROLE]->(roleEmployee)
-CREATE (employee5)-[:HAS_TYPE]->(employeeTypeWarehouseman)
+CREATE (employee5)-[:WORKS_AS]->(employeePositionWarehouseman)
 
 
 // ============================== Countries ==============================
@@ -77,64 +77,59 @@ CREATE (departmentType2:DepartmentType {name: 'MAGAZYN'})
 // ============================== Departments ==============================
 // Department 1
 CREATE (department1Warehouse:Department {name: 'Magazyn główny'})
-CREATE (department1Warehouse)-[:HAS_TYPE]->(departmentType2)
+CREATE (department1Warehouse)-[:IS_OF_TYPE]->(departmentType2)
 CREATE (employee1)-[:WORKS_IN]->(department1Warehouse)
 CREATE (employee2)-[:WORKS_IN]->(department1Warehouse)
-CREATE (department1Address:Address {
+CREATE (department1Warehouse)-[:LOCATED_AT]->(:Address {
   street:       'Daszyńskiego',
   house_number: '11',
   postcode:     '10-333',
   city:         'Warszawa'
 })-[:IS_IN]->(countryPoland)
-CREATE (department1Warehouse)-[:HAS_ADDRESS]->(department1Address)
 
 // Department 2
 CREATE (department2Warehouse:Department {name: 'Magazyn zapasowy'})
-CREATE (department2Warehouse)-[:HAS_TYPE]->(departmentType2)
-CREATE (department2Address:Address {
+CREATE (department2Warehouse)-[:IS_OF_TYPE]->(departmentType2)
+CREATE (department2Warehouse)-[:LOCATED_AT]->(:Address {
   street:       'Poturzyńska',
   house_number: '22',
   postcode:     '20-333',
   city:         'Lublin'
 })-[:IS_IN]->(countryPoland)
-CREATE (department2Warehouse)-[:HAS_ADDRESS]->(department2Address)
 
 // Department 3
 CREATE (department3Shop:Department {name: 'Sklep w Lublinie'})
-CREATE (department3Shop)-[:HAS_TYPE]->(departmentType1)
+CREATE (department3Shop)-[:IS_OF_TYPE]->(departmentType1)
 CREATE (employee3)-[:WORKS_IN]->(department3Shop)
 CREATE (employee4)-[:WORKS_IN]->(department3Shop)
-CREATE (department3Address:Address {
+CREATE (department3Shop)-[:LOCATED_AT]->(:Address {
   street:       'Nałęczowska',
   house_number: '3',
   postcode:     '15-221',
   city:         'Lublin'
 })-[:IS_IN]->(countryPoland)
-CREATE (department3Shop)-[:HAS_ADDRESS]->(department3Address)
 
 
 // Department 4
 CREATE (department4Shop:Department {name: 'Sklep w Warszawie'})
-CREATE (department4Shop)-[:HAS_TYPE]->(departmentType1)
+CREATE (department4Shop)-[:IS_OF_TYPE]->(departmentType1)
 CREATE (employee5)-[:WORKS_IN]->(department4Shop)
-CREATE (department4Address:Address {
+CREATE (department4Shop)-[:LOCATED_AT]->(:Address {
   street:       'Złota',
   house_number: '12',
   postcode:     '01-985',
   city:         'Warszawa'
 })-[:IS_IN]->(countryPoland)
-CREATE (department4Shop)-[:HAS_ADDRESS]->(department4Address)
 
 // Department 5
 CREATE (department5Shop:Department {name: 'Sklep w Nowym Sączu'})
-CREATE (department5Shop)-[:HAS_TYPE]->(departmentType1)
-CREATE (department5Address:Address {
+CREATE (department5Shop)-[:IS_OF_TYPE]->(departmentType1)
+CREATE (department5Shop)-[:LOCATED_AT]->(:Address {
   street:       'Zbożowa',
   house_number: '56',
   postcode:     '01-958',
   city:         'Nowy Sącz'
 })-[:IS_IN]->(countryPoland)
-CREATE (department5Shop)-[:HAS_ADDRESS]->(department5Address)
 
 
 // ============================== Customers ==============================
@@ -184,73 +179,73 @@ CREATE (bookReview1:BookReview {
   title:   'BARDZO POLECAM!!!',
   content: 'PIĘKNA książka która zachwyciła tysiące dziewcząt na całym świecie, w tym i mnie. Ciekawa, opisująca losy małej dziewczynki z sierocińca , która przez przypadek trafia na Zielone Wzgórze.',
   stars:   5
-})-[:HAS_AUTHOR]->(customer1)
+})-[:WRITTEN_BY]->(customer1)
 
 CREATE (bookReview2:BookReview {
   title:   'Bardzo ciekawa',
   content: 'Bardzo ciekawa książka (lektura). Opowiada o dziewczynce która trafiła przez pomyłke do starszego rodzeństwa. Warto przeczytać.',
   stars:   4
-})-[:HAS_AUTHOR]->(customer2)
+})-[:WRITTEN_BY]->(customer2)
 
 CREATE (bookReview3:BookReview {
   title:   'Kiepskie tłumaczenie',
   content: 'Zdecydowanie polecam bardziej tłumaczenie p. Skibniewskiej niż to użyte w tym wydaniu, czyli p. Braiter. W wydaniu Zysk i S-ka na mapie świata pojawiło się kilka błędów rzeczowych i związanych z odmianą oraz kilka literówek w samym tekście. Do tego niektóre użyte sformułowania aż kłują w oczy - "najdrożssssszy" zamiast sskarbie, "ziomkowie" zamiast rodu, czy wojowników, "drzazgi" zamiast pochodni" oraz moje ulubione "gruba beka" zamiast "stare pajęczysko". Momentami naprawdę źle się to czyta. Całość w dużym stopniu ratuje przepiękna wręcz oprawa wizualna. Mimo to, wygląda to trochę jakby nad wydaniem czuwał ktoś, kto nie ma pojęcia o świecie Tolkiena. Skontaktowałem się już w sprawie poprawek błędów z wydawnictwem, jednak od kilku dni przestali mi odpowiadać. Szkoda.',
   stars:   1
-})-[:HAS_AUTHOR]->(customer3)
+})-[:WRITTEN_BY]->(customer3)
 
 CREATE (bookReview4:BookReview {
   title:   'Książka J.R.R. Tolkiena',
   content: 'Książka J.R.R. Tolkiena pt. "Hobbit, czyli tam i z powrotem" jest lekturą fantastyczną, przygodową. Przyjemnie i szybko się ją czyta. Głównym bohaterem jest mały Hobbit - Bilbo Baggins. Wiedzie spokojne życie w swojej chatce pod Pagurkiem. Pewnego dnia jego świat odwraca się do góry nogami. Niespodziewanie w jego domu pojawia się gromadka Krasnoludów oraz czarodziej Gandalf. Chcą, aby udał się z nimi w podróż w celu zabicia smoka oraz odzyskania Góry i skarbów Durina. Bilbo zgadza się na wyprawę, nie wiedząc jeszcze jak naprawdę niebezpieczna okaże się ta przygoda.\n\n"Ciemne sprawy najlepiej załatwiać po ciemku."',
   stars:   3
-})-[:HAS_AUTHOR]->(customer4)
+})-[:WRITTEN_BY]->(customer4)
 
 CREATE (bookReview5:BookReview {
   title:   'Cudowne',
   content: 'Kto z nas nie zna tej historii? Piękna opowieść z cudnymi ilustracjami. To wydanie jest wprost niesamowite, a moja córka nie może sie od niego oderwać.',
   stars:   5
-})-[:HAS_AUTHOR]->(customer3)
+})-[:WRITTEN_BY]->(customer3)
 
 CREATE (bookReview6:BookReview {
   title:   'Polecam',
   content: 'Polecam, dobre opracowanie, bardzo pomocne w szkole przy omawianiu lektury.',
   stars:   4
-})-[:HAS_AUTHOR]->(customer4)
+})-[:WRITTEN_BY]->(customer4)
 
 CREATE (bookReview7:BookReview {
   title:   'Moja ulubiona książka',
   content: 'To książka, która na zawsze pozostaje w pamięci, o ile da się jej „oswoić”. To alegoria samotności, miłości, która przekazuje ponadczasowe treści. Czy jest ktoś, kto nie zna sentencji, że dobrze widzi się tylko sercem…? To klasyka, którą można codziennie odkrywać od nowa. Choć jej forma nie przemówi do wszystkich, to jednak dla tych, którzy przeczytają ją sercem, pozwoli spojrzeć na współczesny świat w innej perspektywy. Jest ona pełna emocji, wskazuje na miłość i przyjaźń, na wartości, które tak łatwo zatracić, a bez których nie ma prawdziwego życia. Życia, które jest pełne szczęścia i może być przezywane w pełni.',
   stars:   5
-})-[:HAS_AUTHOR]->(customer5)
+})-[:WRITTEN_BY]->(customer5)
 
 CREATE (bookReview8:BookReview {
   title:   'À partir de là',
   content: "À partir de là, vous n'aurez plus qu'une seule interrogation: savoir d'où vient cet étrange petit bonhomme et connaître son histoire.",
   stars:   4
-})-[:HAS_AUTHOR]->(customer3)
+})-[:WRITTEN_BY]->(customer3)
 
 CREATE (bookReview9:BookReview {
   title:   'Imaginez-vous',
   content: "Imaginez-vous perdu dans le désert, loin de tout lieu habité, et face à un petit garçon tout blond, surgi de nulle part. Si de surcroît ce petit garçon vous demande avec insistance de dessiner un mouton, vous voilà plus qu'étonné !",
   stars:   4
-})-[:HAS_AUTHOR]->(customer4)
+})-[:WRITTEN_BY]->(customer4)
 
 CREATE (bookReview10:BookReview {
   title:   'Wybrakowane',
   content: 'Kupiłem synowi i brakuje części rozdziału 3 i całego czwartego, musiałem ratować się dostępną w sieci darmową wersją elektroniczną.',
   stars:   1
-})-[:HAS_AUTHOR]->(customer1)
+})-[:WRITTEN_BY]->(customer1)
 
 CREATE (bookReview11:BookReview {
   title:   'Ciężko się czyta',
   content: 'Bardzo mała czcionka...',
   stars:   2
-})-[:HAS_AUTHOR]->(customer2)
+})-[:WRITTEN_BY]->(customer2)
 
 CREATE (bookReview12:BookReview {
   title:   'No nie',
   content: 'Długa, nużąca, ciężko się czyta.',
   stars:   1
-})-[:HAS_AUTHOR]->(customer3)
+})-[:WRITTEN_BY]->(customer3)
 
 
 // ============================== BookAuthors ==============================
@@ -392,11 +387,11 @@ CREATE (orderTypeLocalStore:OrderType {code: 'LOCAL_STORE', description: 'Zamów
 // ============================== Orders ==============================
 // Order 1
 CREATE (order1:Order {order_date: datetime('2011-11-05T11:29:36.000+00:00')})
-CREATE (order1)-[:HAS_TYPE]->(orderTypeOnlineStore)
+CREATE (order1)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
 CREATE (order1)-[:HAS_STATUS]->(orderStatusDelivered)
 CREATE (order1)-[:ORDERED_BY]->(customer1)
 CREATE (order1)-[:SENT_FROM]->(department1Warehouse)
-CREATE (order1)-[:DELIVERY_ADDRESS]->(:Address {
+CREATE (order1)-[:DELIVERED_TO]->(:Address {
   street:       'Lublińskiego Mariana',
   house_number: '6',
   flat_number:  '17',
@@ -406,11 +401,11 @@ CREATE (order1)-[:DELIVERY_ADDRESS]->(:Address {
 
 // Order 2
 CREATE (order2:Order {order_date: datetime('2012-11-05T12:29:36.000+00:00')})
-CREATE (order2)-[:HAS_TYPE]->(orderTypeOnlineStore)
+CREATE (order2)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
 CREATE (order2)-[:HAS_STATUS]->(orderStatusInTransport)
 CREATE (order2)-[:ORDERED_BY]->(customer1)
 CREATE (order2)-[:SENT_FROM]->(department1Warehouse)
-CREATE (order2)-[:DELIVERY_ADDRESS]->(:Address {
+CREATE (order2)-[:DELIVERED_TO]->(:Address {
   street:       'Impasse du Dahomey',
   house_number: '2',
   flat_number:  '251',
@@ -420,11 +415,11 @@ CREATE (order2)-[:DELIVERY_ADDRESS]->(:Address {
 
 // Order 3
 CREATE (order3:Order {order_date: datetime('2013-11-05T13:29:36.000+00:00')})
-CREATE (order3)-[:HAS_TYPE]->(orderTypeOnlineStore)
+CREATE (order3)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
 CREATE (order3)-[:HAS_STATUS]->(orderStatusBeingPacked)
 CREATE (order3)-[:ORDERED_BY]->(customer2)
 CREATE (order3)-[:SENT_FROM]->(department1Warehouse)
-CREATE (order3)-[:DELIVERY_ADDRESS]->(:Address {
+CREATE (order3)-[:DELIVERED_TO]->(:Address {
   street:       'Borgo Galli',
   house_number: '8',
   flat_number:  '142',
@@ -434,11 +429,11 @@ CREATE (order3)-[:DELIVERY_ADDRESS]->(:Address {
 
 // Order 4
 CREATE (order4:Order {order_date: datetime('2014-11-05T14:29:36.000+00:00')})
-CREATE (order4)-[:HAS_TYPE]->(orderTypeOnlineStore)
+CREATE (order4)-[:IS_OF_TYPE]->(orderTypeOnlineStore)
 CREATE (order4)-[:HAS_STATUS]->(orderStatusCancelled)
 CREATE (order4)-[:ORDERED_BY]->(customer3)
 CREATE (order3)-[:SENT_FROM]->(department2Warehouse)
-CREATE (order3)-[:DELIVERY_ADDRESS]->(:Address {
+CREATE (order3)-[:DELIVERED_TO]->(:Address {
   street:       '3 maja',
   house_number: '2',
   flat_number:  '251',
@@ -448,6 +443,12 @@ CREATE (order3)-[:DELIVERY_ADDRESS]->(:Address {
 
 // Order 5
 CREATE (order5:Order {order_date: datetime('2015-11-05T15:29:36.000+00:00')})
-CREATE (order5)-[:HAS_TYPE]->(orderTypeLocalStore)
+CREATE (order5)-[:IS_OF_TYPE]->(orderTypeLocalStore)
 CREATE (order5)-[:HAS_STATUS]->(orderStatusDelivered)
-CREATE (order5)-[:PICKED_UP_IN]->(department4Shop)
+CREATE (order5)-[:PICKED_UP_AT]->(department4Shop)
+
+// Order 6
+CREATE (order5:Order {order_date: datetime('2016-11-05T16:29:36.000+00:00')})
+CREATE (order5)-[:IS_OF_TYPE]->(orderTypeLocalStore)
+CREATE (order5)-[:HAS_STATUS]->(orderStatusDelivered)
+CREATE (order5)-[:PICKED_UP_AT]->(department3Shop)
