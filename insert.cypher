@@ -479,8 +479,8 @@ CREATE (order4:Order {order_date: datetime('2014-11-05T14:29:36.000+00:00')})
 CREATE (order4)-[:IS_OF_ORDER_TYPE]->(orderTypeOnlineStore)
 CREATE (order4)-[:HAS_STATUS]->(orderStatusCancelled)
 CREATE (order4)-[:ORDERED_BY]->(customer3)
-CREATE (order3)-[:SENT_FROM]->(department2Warehouse)
-CREATE (order3)-[:DELIVERED_TO]->(:Address {
+CREATE (order4)-[:SENT_FROM]->(department2Warehouse)
+CREATE (order4)-[:DELIVERED_TO]->(:Address {
   street:       '3 maja',
   house_number: '2',
   flat_number:  '251',
